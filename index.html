@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IKSAJ</title>
+  <style>
+    :root {
+      --kuning: #fdd835;
+      --hitam: #111;
+      --putih: #fff;
+      --abu: #f5f5f5;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: var(--putih);
+      color: var(--hitam);
+    }
+
+    header {
+      background: transparent;
+      padding: 15px 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 2px solid #ccc;
+    }
+
+    header img {
+      height: 40px;
+      width: 40px;
+    }
+
+    .header-card {
+      background: var(--kuning);
+      border-radius: 20px;
+      padding: 8px 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    nav {
+      background: var(--abu);
+      display: flex;
+      gap: 20px;
+      padding: 10px;
+    }
+
+    nav a {
+      color: var(--hitam);
+      text-decoration: none;
+      font-weight: bold;
+      padding: 6px 12px;
+      border-radius: 10px;
+      transition: background 0.3s;
+    }
+
+    nav a:hover {
+      background: var(--kuning);
+    }
+
+    section {
+      padding: 20px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    .overlay.active {
+      display: flex;
+    }
+
+    .password-box {
+      background: #000;
+      border: 3px solid var(--kuning);
+      border-radius: 20px;
+      padding: 20px;
+      width: 90%;
+      max-width: 300px;
+    }
+
+    .password-box input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      outline: none;
+      font-size: 1em;
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    .post {
+      border-left: 5px solid var(--kuning);
+      border-radius: 10px;
+      background: #fff;
+      padding: 10px;
+      margin: 10px 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .judul-wrapper {
+      background: var(--abu);
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .kategori {
+      text-align: left;
+      font-style: italic;
+    }
+
+    .judul {
+      text-align: center;
+      font-size: 1.3em;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .penulis {
+      text-align: center;
+      font-size: 0.9em;
+      color: gray;
+    }
+
+    .isi {
+      text-align: left;
+      margin-top: 10px;
+      white-space: pre-wrap;
+    }
+
+    .admin-btns {
+      text-align: right;
+      margin-top: 10px;
+    }
+
+    #formTambah {
+      background: #fffbea;
+      border: 1px solid #ccc;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    #formTambah input, #formTambah textarea {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0;
+      border-radius: 8px;
+      border: 1px solid #aaa;
+    }
+
+    #formTambah button {
+      margin-top: 10px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: var(--kuning);
+      border: none;
+      cursor: pointer;
+    }
+
+    #adminControls {
+      margin-top: 10px;
+      text-align: right;
+    }
+
+    @media (max-width: 600px) {
+      nav {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="logo.png" alt="Logo IKSAJ" />
+  <div class="header-card" onclick="showPassword()">Organisasi IKSAJ</div>
+</header>
+
+<nav>
+  <a onclick="showSection('jongjava')">Jong Java</a>
+  <a onclick="showSection('tentang')">Tentang Kami</a>
+</nav>
+
+<div id="overlay" class="overlay" onclick="hidePassword()">
+  <div class="password-box" onclick="event.stopPropagation()">
+    <input type="password" id="passwordInput" placeholder="Masukkan sandi" oninput="autoLogin()" />
+  </div>
+</div>
+
+<section id="formTambah" class="hidden">
+  <strong>Tambah Tulisan:</strong>
+  <input id="kategoriInput" placeholder="Kategori">
+  <input id="judulInput" placeholder="Judul">
+  <input id="penulisInput" placeholder="Penulis">
+  <textarea id="isiInput" placeholder="Isi tulisan" rows="4"></textarea>
+  <button onclick="tambahTulisan()">Tambah</button>
+</section>
+
+<section id="adminControls" class="hidden">
+  <button onclick="keluarAdmin()">Selesai</button>
+</section>
+
+<section id="jongjava">
+  <div class="judul-wrapper"><h2>Jong Java</h2></div>
+  <div id="daftarTulisan"></div>
+</section>
+
+<section id="tentang" class="hidden">
+  <div class="judul-wrapper"><h2>Tentang Kami</h2></div>
+  <p>IKSAJ adalah organisasi daerah santri asal Jember di Pondok Pesantren Annuqayah.</p>
+</section>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBYoiXWgNvn-1ZO3tD-ne-6Veevj3FRiMo",
+    authDomain: "ikatansantriannuqayahjawa.firebaseapp.com",
+    databaseURL: "https://ikatansantriannuqayahjawa-default-rtdb.firebaseio.com",
+    projectId: "ikatansantriannuqayahjawa",
+    storageBucket: "ikatansantriannuqayahjawa.appspot.com",
+    messagingSenderId: "365298387675",
+    appId: "1:365298387675:web:901ec7c98db9d18a665afe"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  let isAdmin = false;
+
+  function showPassword() {
+    document.getElementById('overlay').classList.add('active');
+    document.getElementById('passwordInput').focus();
+  }
+
+  function hidePassword() {
+    document.getElementById('overlay').classList.remove('active');
+    document.getElementById('passwordInput').value = '';
+  }
+
+  function autoLogin() {
+    const pw = document.getElementById('passwordInput').value;
+    if (pw === 'iksaj2024') {
+      isAdmin = true;
+      hidePassword();
+      document.getElementById('formTambah').classList.remove('hidden');
+      document.getElementById('adminControls').classList.remove('hidden');
+      renderTulisan();
+    }
+  }
+
+  function keluarAdmin() {
+    isAdmin = false;
+    document.getElementById('formTambah').classList.add('hidden');
+    document.getElementById('adminControls').classList.add('hidden');
+    renderTulisan();
+  }
+
+  function showSection(id) {
+    document.getElementById('jongjava').classList.add('hidden');
+    document.getElementById('tentang').classList.add('hidden');
+    document.getElementById(id).classList.remove('hidden');
+  }
+
+  function tambahTulisan() {
+    const kategori = document.getElementById('kategoriInput').value;
+    const judul = document.getElementById('judulInput').value;
+    const penulis = document.getElementById('penulisInput').value;
+    const isi = document.getElementById('isiInput').value;
+
+    if (!kategori || !judul || !penulis || !isi) return;
+
+    const newPost = {
+      kategori,
+      judul,
+      penulis,
+      isi,
+      timestamp: Date.now()
+    };
+
+    db.ref("jongjava").push(newPost).then(() => {
+      document.getElementById('kategoriInput').value = '';
+      document.getElementById('judulInput').value = '';
+      document.getElementById('penulisInput').value = '';
+      document.getElementById('isiInput').value = '';
+      renderTulisan();
+    });
+  }
+
+  function renderTulisan() {
+    db.ref("jongjava").orderByChild("timestamp").once("value", snapshot => {
+      const wadah = document.getElementById('daftarTulisan');
+      wadah.innerHTML = '';
+      const data = snapshot.val();
+      if (!data) return;
+
+      Object.entries(data).forEach(([id, item]) => {
+        const div = document.createElement('div');
+        div.className = 'post';
+        div.innerHTML = `
+          <div ${isAdmin ? 'contenteditable' : ''} onblur="updateField('${id}', 'kategori', this.innerText)" class="kategori">${item.kategori}</div>
+          <div ${isAdmin ? 'contenteditable' : ''} onblur="updateField('${id}', 'judul', this.innerText)" class="judul">${item.judul}</div>
+          <div ${isAdmin ? 'contenteditable' : ''} onblur="updateField('${id}', 'penulis', this.innerText)" class="penulis">${item.penulis}</div>
+          <div ${isAdmin ? 'contenteditable' : ''} onblur="updateField('${id}', 'isi', this.innerText)" class="isi">${item.isi}</div>
+          ${isAdmin ? `<div class="admin-btns"><button onclick="hapusTulisan('${id}')">Hapus</button></div>` : ''}
+        `;
+        wadah.prepend(div);
+      });
+    });
+  }
+
+  function updateField(id, field, value) {
+    const update = {};
+    update[field] = value;
+    db.ref("jongjava/" + id).update(update);
+  }
+
+  function hapusTulisan(id) {
+    if (confirm("Hapus tulisan ini?")) {
+      db.ref("jongjava/" + id).remove().then(renderTulisan);
+    }
+  }
+
+  showSection('jongjava');
+  renderTulisan();
+</script>
+
+</body>
+</html>
