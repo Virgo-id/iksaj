@@ -410,5 +410,18 @@ db.ref("opini").on("child_added", function(snapshot) {
   });
 </script>
 
+  <script>
+  // Cek apakah user datang dari index.html
+  const cameFromWelcome = sessionStorage.getItem('fromWelcome');
+
+  if (!cameFromWelcome) {
+    // Kalau tidak datang dari welcome, arahkan ke ii.html
+    window.location.href = 'ii.html';
+  } else {
+    // Kalau valid, hapus flag agar tidak bisa reload terus-terusan tanpa welcome
+    sessionStorage.removeItem('fromWelcome');
+  }
+</script>
+
 </body>
 </html>
