@@ -150,6 +150,7 @@
     <div id="jj" class="halaman aktif">
       <h2>Admin - Jong Java</h2>
       <form id="formJJ">
+        <input type="text" id="kategori" placeholder="Kategori" required />
         <input type="text" name="judul" placeholder="Judul" required>
         <input type="text" name="penulis" placeholder="Penulis" required>
         <textarea name="isi" rows="4" placeholder="Isi" required></textarea>
@@ -289,6 +290,51 @@ document.addEventListener("touchend", function(e) {
     toggleNavigasi(); // Buka sidebar
   }
 });
+
+    //-----------------------
+function setupKonten(formId, listId, path) {
+  const form = document.getElementById(formId);
+  const list = document.getElementById(listId);
+
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const judul = form.querySelector("input[name='judul']").value.trim();
+    const penulis = form.querySelector("input[name='penulis']").value.trim();
+    const isi = form.querySelector("textarea[name='isi']").value.trim();
+
+    if (!judul || !penulis || !isi) return;
+
+    let data = { judul, penulis, isi, waktu: Date.now() };
+
+    // Khusus untuk jongjava, ambil kategori dari input dan tambahkan ke data
+    if (path === "jongjava") {
+      const kategori = form.querySelector("input[name='kategori']").value.trim();
+      if (!kategori) return; // wajib isi kategori untuk jongjava
+      data.kategori = kategori;
+    }
+
+    db.ref(path).push(data);
+    form.reset();
+  });
+
+  db.ref(path).on("child_added", snap => {
+    const d = snap.val(), id = snap.key;
+    const el = document.createElement("div");
+    el.className = "card";
+
+    // Tampilkan kategori hanya kalau ada
+    const kategoriText = d.kategori ? `[${d.kategori}] ` : "";
+
+    el.innerHTML = `
+      <strong>${kategoriText}${d.judul}</strong><br>
+      <small>${d.penulis}</small>
+      <p>${d.isi}</p>
+      <button onclick="hapus('${path}','${id}',this)">Hapus</button>
+    `;
+    list.prepend(el);
+  });
+}
 
   </script>
 
