@@ -209,134 +209,112 @@
 
   </div>
 
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBYoiXWgNvn-1ZO3tD-ne-6Veevj3FRiMo",
-      authDomain: "ikatansantriannuqayahjawa.firebaseapp.com",
-      databaseURL: "https://ikatansantriannuqayahjawa-default-rtdb.firebaseio.com",
-      projectId: "ikatansantriannuqayahjawa",
-      storageBucket: "ikatansantriannuqayahjawa",
-      messagingSenderId: "365298387675",
-      appId: "1:365298387675:web:901ec7c98db9d18a665afe"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
+ <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBYoiXWgNvn-1ZO3tD-ne-6Veevj3FRiMo",
+    authDomain: "ikatansantriannuqayahjawa.firebaseapp.com",
+    databaseURL: "https://ikatansantriannuqayahjawa-default-rtdb.firebaseio.com",
+    projectId: "ikatansantriannuqayahjawa",
+    storageBucket: "ikatansantriannuqayahjawa",
+    messagingSenderId: "365298387675",
+    appId: "1:365298387675:web:901ec7c98db9d18a665afe"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
 
-    function toggleNavigasi() {
-      const panel = document.getElementById("panelNav");
-      const tombol = document.getElementById("navigasiBtn");
-      panel.classList.toggle("tampil");
-      tombol.style.zIndex = panel.classList.contains("tampil") ? "900" : "1100";
-    }
-
-    function tampilkan(id) {
-      document.querySelectorAll('.halaman').forEach(h => h.classList.remove('aktif'));
-      document.getElementById(id).classList.add('aktif');
-      document.getElementById("panelNav").classList.remove("tampil");
-      document.getElementById("navigasiBtn").style.zIndex = "1100";
-    }
-
-    function setupKonten(formId, listId, path) {
-      const form = document.getElementById(formId);
-      const list = document.getElementById(listId);
-
-      form.addEventListener("submit", function(e) {
-        e.preventDefault();
-        const judul = form.querySelector("input[name='judul']").value.trim();
-        const penulis = form.querySelector("input[name='penulis']").value.trim();
-        const isi = form.querySelector("textarea[name='isi']").value.trim();
-        if (!judul || !penulis || !isi) return;
-        db.ref(path).push({ judul, penulis, isi, waktu: Date.now() });
-        form.reset();
-      });
-
-      db.ref(path).on("child_added", snap => {
-        const d = snap.val(), id = snap.key;
-        const el = document.createElement("div");
-        el.className = "card";
-        el.innerHTML = `<strong>${d.judul}</strong><br><small>${d.penulis}</small><p>${d.isi}</p><button onclick="hapus('${path}','${id}',this)">Hapus</button>`;
-        list.prepend(el);
-      });
-    }
-    
-    function hapus(path, key, btn) {
-      if (confirm("Yakin ingin menghapus data ini?")) {
-        db.ref(path + "/" + key).remove();
-        btn.parentElement.remove();
-      }
-    }
-
-    // Inisialisasi semua halaman
-    setupKonten("formJJ", "listJJ", "jongjava");
-    setupKonten("formPuisi", "listPuisi", "puisi");
-    setupKonten("formCerpen", "listCerpen", "cerpen");
-    setupKonten("formEsai", "listEsai", "esai");
-    setupKonten("formOpini", "listOpini", "opini");
-
-// Swipe gesture dari kanan ke kiri untuk membuka panel navigasi
-let touchStartX = 0;
-
-document.addEventListener("touchstart", function(e) {
-  touchStartX = e.touches[0].clientX;
-});
-
-document.addEventListener("touchend", function(e) {
-  const touchEndX = e.changedTouches[0].clientX;
-  const swipeDistance = touchStartX - touchEndX;
-
-  if (swipeDistance > 80) {
-    toggleNavigasi(); // Buka sidebar
+  function toggleNavigasi() {
+    const panel = document.getElementById("panelNav");
+    const tombol = document.getElementById("navigasiBtn");
+    panel.classList.toggle("tampil");
+    tombol.style.zIndex = panel.classList.contains("tampil") ? "900" : "1100";
   }
-});
 
-    //-----------------------
-function setupKonten(formId, listId, path) {
-  const form = document.getElementById(formId);
-  const list = document.getElementById(listId);
+  function tampilkan(id) {
+    document.querySelectorAll('.halaman').forEach(h => h.classList.remove('aktif'));
+    document.getElementById(id).classList.add('aktif');
+    document.getElementById("panelNav").classList.remove("tampil");
+    document.getElementById("navigasiBtn").style.zIndex = "1100";
+  }
 
-  form.addEventListener("submit", function(e) {
-    e.preventDefault();
+  function setupKonten(formId, listId, path) {
+    const form = document.getElementById(formId);
+    const list = document.getElementById(listId);
 
-    const judul = form.querySelector("input[name='judul']").value.trim();
-    const penulis = form.querySelector("input[name='penulis']").value.trim();
-    const isi = form.querySelector("textarea[name='isi']").value.trim();
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
 
-    if (!judul || !penulis || !isi) return;
+      const judul = form.querySelector("input[name='judul']").value.trim();
+      const penulis = form.querySelector("input[name='penulis']").value.trim();
+      const isi = form.querySelector("textarea[name='isi']").value.trim();
 
-    let data = { judul, penulis, isi, waktu: Date.now() };
+      if (!judul || !penulis || !isi) return;
 
-    // Khusus untuk jongjava, ambil kategori dari input dan tambahkan ke data
-    if (path === "jongjava") {
-      const kategori = form.querySelector("input[name='kategori']").value.trim();
-      if (!kategori) return; // wajib isi kategori untuk jongjava
-      data.kategori = kategori;
+      let data = { judul, penulis, isi, waktu: Date.now() };
+
+      // Khusus untuk jongjava, ambil kategori dari input dan tambahkan ke data
+      if (path === "jongjava") {
+        const kategori = form.querySelector("input[name='kategori']").value.trim();
+        if (!kategori) {
+          alert("Kategori wajib diisi!");
+          return; // wajib isi kategori untuk jongjava
+        }
+        data.kategori = kategori;
+      }
+
+      db.ref(path).push(data);
+      form.reset();
+    });
+
+    db.ref(path).on("child_added", snap => {
+      const d = snap.val(), id = snap.key;
+      const el = document.createElement("div");
+      el.className = "card";
+
+      // Tampilkan kategori hanya kalau ada
+      const kategoriText = d.kategori ? `[${d.kategori}] ` : "";
+
+      el.innerHTML = `
+        <strong>${kategoriText}${d.judul}</strong><br>
+        <small>${d.penulis}</small>
+        <p>${d.isi}</p>
+        <button onclick="hapus('${path}','${id}',this)">Hapus</button>
+      `;
+      list.prepend(el);
+    });
+  }
+
+  function hapus(path, key, btn) {
+    if (confirm("Yakin ingin menghapus data ini?")) {
+      db.ref(path + "/" + key).remove();
+      btn.parentElement.remove();
     }
+  }
 
-    db.ref(path).push(data);
-    form.reset();
+  // Inisialisasi semua halaman
+  setupKonten("formJJ", "listJJ", "jongjava");
+  setupKonten("formPuisi", "listPuisi", "puisi");
+  setupKonten("formCerpen", "listCerpen", "cerpen");
+  setupKonten("formEsai", "listEsai", "esai");
+  setupKonten("formOpini", "listOpini", "opini");
+
+  // Swipe gesture dari kanan ke kiri untuk membuka panel navigasi
+  let touchStartX = 0;
+
+  document.addEventListener("touchstart", function(e) {
+    touchStartX = e.touches[0].clientX;
   });
 
-  db.ref(path).on("child_added", snap => {
-    const d = snap.val(), id = snap.key;
-    const el = document.createElement("div");
-    el.className = "card";
+  document.addEventListener("touchend", function(e) {
+    const touchEndX = e.changedTouches[0].clientX;
+    const swipeDistance = touchStartX - touchEndX;
 
-    // Tampilkan kategori hanya kalau ada
-    const kategoriText = d.kategori ? `[${d.kategori}] ` : "";
-
-    el.innerHTML = `
-      <strong>${kategoriText}${d.judul}</strong><br>
-      <small>${d.penulis}</small>
-      <p>${d.isi}</p>
-      <button onclick="hapus('${path}','${id}',this)">Hapus</button>
-    `;
-    list.prepend(el);
+    if (swipeDistance > 80) {
+      toggleNavigasi(); // Buka sidebar
+    }
   });
-}
-
-  </script>
+</script>
 
  <script>
     if (sessionStorage.getItem("isLoggedIn") !== "true") {
