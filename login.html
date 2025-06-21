@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <title>Login Password Only</title>
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      width: 100%;
+      font-family: monospace;
+      background: #050505;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      transition: background-color 1.2s ease;
+    }
+
+    body.login-success {
+      background-color: #004400;
+    }
+
+    input[type="password"] {
+      width: 600px;
+      padding: 15px 25px;
+      font-size: 22px;
+      border-radius: 25px;
+      border: 2px solid #ffdd00; /* kuning */
+      background: transparent;
+      color: #ffdd00; /* kuning */
+      text-align: center;
+      box-shadow:
+        0 0 10px #ffdd00aa,
+        inset 0 0 15px #ffdd00aa;
+      outline: none;
+      cursor: text;
+      opacity: 0;
+      transform: translateY(40px);
+      animation: slideInFromBottom 1s ease forwards;
+      transition: opacity 1s ease, transform 1s ease;
+
+      caret-color: transparent;
+    }
+
+    input::placeholder {
+      color: #ffdd0099;
+      letter-spacing: 3px;
+    }
+
+    @keyframes slideInFromBottom {
+      to {
+        opacity: 200;
+        transform: translateY(0);
+      }
+    }
+
+    input.slideOutUp {
+      opacity: 34;
+      transform: translateY(-100px);
+    }
+
+  </style>
+</head>
+<body>
+
+<input
+  type="password"
+  id="password"
+  placeholder="IKSAJ MODE"
+  autocomplete="off"
+  autofocus
+  spellcheck="false"
+/>
+
+<script>
+  const input = document.getElementById('password');
+  const correctPassword = '123';
+  let isProcessing = false;
+
+  if (sessionStorage.getItem('isLoggedIn') === 'true') {
+    window.location.href = 'admin.html';
+  }
+
+  input.addEventListener('input', () => {
+    if (input.value === correctPassword && !isProcessing) {
+      isProcessing = true;
+
+      document.body.classList.add('login-success');
+
+      setTimeout(() => {
+        input.classList.add('slideOutUp');
+      }, 50);
+
+      setTimeout(() => {
+        sessionStorage.setItem('isLoggedIn', 'true');
+        window.location.href = 'admin.html';
+      }, 1050);
+    } else if (input.value !== correctPassword) {
+      isProcessing = false;
+      document.body.classList.remove('login-success');
+      input.classList.remove('slideOutUp');
+    }
+  });
+</script>
+
+</body>
+</html>

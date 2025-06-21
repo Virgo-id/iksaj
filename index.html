@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Selamat Datang</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+    }
+
+    body {
+      background: linear-gradient(-45deg, #000000, #003300, #001a00, #000000);
+      background-size: 400% 400%;
+      animation: gradientBG 12s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .welcome-container {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 2s ease-out, slideIn 1.5s ease-out;
+    }
+
+    .logo {
+      width: 220px;
+      height: auto;
+      margin-bottom: 40px;
+      filter: drop-shadow(0 0 15px rgba(255, 255, 0, 0.4));
+      cursor: pointer;
+    }
+
+    .btn-masuk {
+      padding: 15px 50px;
+      font-size: 1.3rem;
+      background: transparent;
+      border: 2px solid yellow;
+      color: yellow;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(2px);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .btn-masuk:hover {
+      background-color: rgba(255, 255, 0, 0.1);
+      box-shadow: 0 0 20px yellow;
+      color: #ffffff;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(50px); }
+      to { transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="welcome-container">
+    <!-- Logo (klik untuk ke login.html) -->
+    <img src="logo.png" alt="Logo" class="logo" id="logo">
+
+    <!-- Tombol Masuk (klik atau tekan Enter) -->
+    <button class="btn-masuk" id="btnMasuk">Masuk</button>
+  </div>
+
+  <script>
+    // Aksi klik tombol masuk
+    document.getElementById('btnMasuk').addEventListener('click', () => {
+      window.location.href = 'publik.html';
+    });
+
+    // Aksi klik logo
+    document.getElementById('logo').addEventListener('click', () => {
+      window.location.href = 'login.html';
+    });
+
+    // Keyboard shortcut: Enter -> index.html | Backspace -> login.html
+    document.addEventListener('keydown', function(e) {
+      // Jika bukan dalam input field
+      const activeTag = document.activeElement.tagName.toLowerCase();
+      const isInput = ['input', 'textarea'].includes(activeTag);
+
+      if (!isInput) {
+        if (e.key === 'Enter') {
+          window.location.href = 'index.html';
+        }
+        if (e.key === 'Backspace') {
+          e.preventDefault(); // Hindari efek default (kembali halaman)
+          window.location.href = 'login.html';
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>

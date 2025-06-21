@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin IKSAJ</title>
+  <style>
+  :root {
+    --hijau: #0b2e1d;
+    --kuning: #fdd835;
+  }
+
+  body {
+    margin: 0;
+    font-family: sans-serif;
+    background: linear-gradient(to bottom right, var(--hijau), #14452f);
+    color: #fff;
+    overflow-x: hidden;
+  }
+
+  .konten {
+    padding: 80px 20px 40px;
+    max-width: 800px;
+    margin: auto;
+  }
+
+  .halaman { display: none; }
+  .halaman.aktif { display: block; }
+
+  h2 {
+    text-align: center;
+  }
+
+  form {
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-left: 4px solid var(--kuning);
+    border-radius: 8px;
+    margin-bottom: 30px;
+  }
+
+  input, textarea {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    border: none;
+  }
+
+  button {
+    margin-top: 15px;
+    background: var(--kuning);
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.05);
+    border-left: 4px solid var(--kuning);
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+  }
+
+  .card button {
+    background: transparent;
+    color: var(--kuning);
+    border: 1px solid var(--kuning);
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+
+  /* Tombol logo (navigasiBtn) diposisikan agar tidak tertutup panel */
+  .navigasi-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--kuning);
+  background-image: url('logo.png');
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  z-index: 1100;
+}
+
+
+  .panel-navigasi {
+    position: fixed;
+    top: 0;
+    right: -50px;
+    width: 50px;
+    height: 100%;
+    background: rgba(11, 46, 29, 0.95);
+    border-left: 2px solid var(--kuning);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 60px;
+    transition: right 0.3s ease;
+    z-index: 1000;
+    backdrop-filter: blur(3px);
+  }
+
+  .panel-navigasi.tampil {
+    right: 0;
+  }
+
+  .panel-navigasi button {
+    font-size: 18px;
+    background: none;
+    border: none;
+    color: #fff;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .panel-navigasi button:hover {
+    transform: scale(1.2);
+    color: var(--kuning);
+  }
+</style>
+
+</head>
+<body>
+
+  <div class="navigasi-btn" id="navigasiBtn" onclick="toggleNavigasi()"></div>
+
+  <div class="panel-navigasi" id="panelNav">
+    <button onclick="tampilkan('jj')">📰</button>
+    <button onclick="tampilkan('puisi')">✍️</button>
+    <button onclick="tampilkan('cerpen')">📖</button>
+    <button onclick="tampilkan('esai')">🧠</button>
+    <button onclick="tampilkan('opini')">💬</button>
+  </div>
+
+  <div class="konten">
+
+    <!-- 📰 Jong Java -->
+    <div id="jj" class="halaman aktif">
+      <h2>Admin - Jong Java</h2>
+      <form id="formJJ">
+        <input type="text" name="judul" placeholder="Judul" required>
+        <input type="text" name="penulis" placeholder="Penulis" required>
+        <textarea name="isi" rows="4" placeholder="Isi" required></textarea>
+        <button type="submit">Tambah</button>
+      </form>
+      <div id="listJJ"></div>
+    </div>
+
+    <!-- ✍️ Puisi -->
+    <div id="puisi" class="halaman">
+      <h2>Admin - Puisi</h2>
+      <form id="formPuisi">
+        <input type="text" name="judul" placeholder="Judul" required>
+        <input type="text" name="penulis" placeholder="Penulis" required>
+        <textarea name="isi" rows="4" placeholder="Isi" required></textarea>
+        <button type="submit">Tambah</button>
+      </form>
+      <div id="listPuisi"></div>
+    </div>
+
+    <!-- 📖 Cerpen -->
+    <div id="cerpen" class="halaman">
+      <h2>Admin - Cerpen</h2>
+      <form id="formCerpen">
+        <input type="text" name="judul" placeholder="Judul" required>
+        <input type="text" name="penulis" placeholder="Penulis" required>
+        <textarea name="isi" rows="4" placeholder="Isi" required></textarea>
+        <button type="submit">Tambah</button>
+      </form>
+      <div id="listCerpen"></div>
+    </div>
+
+    <!-- 🧠 Esai -->
+    <div id="esai" class="halaman">
+      <h2>Admin - Esai</h2>
+      <form id="formEsai">
+        <input type="text" name="judul" placeholder="Judul" required>
+        <input type="text" name="penulis" placeholder="Penulis" required>
+        <textarea name="isi" rows="4" placeholder="Isi" required></textarea>
+        <button type="submit">Tambah</button>
+      </form>
+      <div id="listEsai"></div>
+    </div>
+
+    <!-- 💬 Opini -->
+    <div id="opini" class="halaman">
+      <h2>Admin - Opini</h2>
+      <form id="formOpini">
+        <input type="text" name="judul" placeholder="Judul" required>
+        <input type="text" name="penulis" placeholder="Penulis" required>
+        <textarea name="isi" rows="4" placeholder="Isi" required></textarea>
+        <button type="submit">Tambah</button>
+      </form>
+      <div id="listOpini"></div>
+    </div>
+
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBYoiXWgNvn-1ZO3tD-ne-6Veevj3FRiMo",
+      authDomain: "ikatansantriannuqayahjawa.firebaseapp.com",
+      databaseURL: "https://ikatansantriannuqayahjawa-default-rtdb.firebaseio.com",
+      projectId: "ikatansantriannuqayahjawa",
+      storageBucket: "ikatansantriannuqayahjawa",
+      messagingSenderId: "365298387675",
+      appId: "1:365298387675:web:901ec7c98db9d18a665afe"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    function toggleNavigasi() {
+      const panel = document.getElementById("panelNav");
+      const tombol = document.getElementById("navigasiBtn");
+      panel.classList.toggle("tampil");
+      tombol.style.zIndex = panel.classList.contains("tampil") ? "900" : "1100";
+    }
+
+    function tampilkan(id) {
+      document.querySelectorAll('.halaman').forEach(h => h.classList.remove('aktif'));
+      document.getElementById(id).classList.add('aktif');
+      document.getElementById("panelNav").classList.remove("tampil");
+      document.getElementById("navigasiBtn").style.zIndex = "1100";
+    }
+
+    function setupKonten(formId, listId, path) {
+      const form = document.getElementById(formId);
+      const list = document.getElementById(listId);
+
+      form.addEventListener("submit", function(e) {
+        e.preventDefault();
+        const judul = form.querySelector("input[name='judul']").value.trim();
+        const penulis = form.querySelector("input[name='penulis']").value.trim();
+        const isi = form.querySelector("textarea[name='isi']").value.trim();
+        if (!judul || !penulis || !isi) return;
+        db.ref(path).push({ judul, penulis, isi, waktu: Date.now() });
+        form.reset();
+      });
+
+      db.ref(path).on("child_added", snap => {
+        const d = snap.val(), id = snap.key;
+        const el = document.createElement("div");
+        el.className = "card";
+        el.innerHTML = `<strong>${d.judul}</strong><br><small>${d.penulis}</small><p>${d.isi}</p><button onclick="hapus('${path}','${id}',this)">Hapus</button>`;
+        list.prepend(el);
+      });
+    }
+    
+    function hapus(path, key, btn) {
+      if (confirm("Yakin ingin menghapus data ini?")) {
+        db.ref(path + "/" + key).remove();
+        btn.parentElement.remove();
+      }
+    }
+
+    // Inisialisasi semua halaman
+    setupKonten("formJJ", "listJJ", "jongjava");
+    setupKonten("formPuisi", "listPuisi", "puisi");
+    setupKonten("formCerpen", "listCerpen", "cerpen");
+    setupKonten("formEsai", "listEsai", "esai");
+    setupKonten("formOpini", "listOpini", "opini");
+
+// Swipe gesture dari kanan ke kiri untuk membuka panel navigasi
+let touchStartX = 0;
+
+document.addEventListener("touchstart", function(e) {
+  touchStartX = e.touches[0].clientX;
+});
+
+document.addEventListener("touchend", function(e) {
+  const touchEndX = e.changedTouches[0].clientX;
+  const swipeDistance = touchStartX - touchEndX;
+
+  if (swipeDistance > 80) {
+    toggleNavigasi(); // Buka sidebar
+  }
+});
+
+  </script>
+
+ <script>
+    if (sessionStorage.getItem("isLoggedIn") !== "true") {
+      window.location.href = "login.html";
+    }
+ </script>
+</body>
+</html>
