@@ -417,7 +417,7 @@ db.ref("opini").on("child_added", function(snapshot) {
 
   if (!cameFromWelcome) {
     // Kalau tidak datang dari welcome, arahkan ke ii.html
-    window.location.href = 'ii.html';
+    window.location.href = 'index.html';
   } else {
     // Kalau valid, hapus flag agar tidak bisa reload terus-terusan tanpa welcome
     sessionStorage.removeItem('fromWelcome');
