@@ -118,6 +118,13 @@
         }
       }
     });
+
+    // Saat tombol masuk diklik, tandai bahwa user sudah lewat index
+document.getElementById('btnMasuk').addEventListener('click', () => {
+  sessionStorage.setItem('fromWelcome', 'true');
+  window.location.href = 'publik.html';
+});
+
   </script>
 
 </body>
