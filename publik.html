@@ -163,14 +163,6 @@ main {
   margin-bottom: 4px;
 }
 
-.like-btn {
-  cursor: pointer;
-  font-size: 18px;
-  user-select: none;
-  transition: color 0.3s ease;
-  flex-shrink: 0;
-}
-
 .jj-body {
   max-height: 0;
   overflow: hidden;
@@ -536,24 +528,9 @@ p {
       penulisSpan.classList.add("penulis");
       penulisSpan.textContent = data.penulis || "Penulis";
 
-      const likeBtn = document.createElement("span");
-      likeBtn.classList.add("like-btn");
-
-      const likeKey = `like_${kategori}_${data.id}`;
-      const liked = localStorage.getItem(likeKey);
-      const likeCount = data.like || 0;
-      likeBtn.textContent = (liked ? "❤️ " : "🤍 ") + likeCount;
-      likeBtn.style.color = liked ? "#ff5252" : "#fdd835";
-
-      likeBtn.onclick = (e) => {
-        e.stopPropagation();
-        toggleLike(kategori, data, likeBtn, card);
-      };
-
       header.appendChild(kategoriSpan);
       header.appendChild(judulSpan);
       header.appendChild(penulisSpan);
-      header.appendChild(likeBtn);
 
       const body = document.createElement("div");
       body.classList.add("jj-body");
@@ -592,36 +569,6 @@ p {
 
       renderPagination(kategori);
     }
-
-    // Fungsi untuk toggle like
- function toggleLike(kategori, data, likeBtn, card) {
-  const likeKey = `like_${kategori}_${data.id}`;  // Gunakan kategori dan ID untuk kunci unik
-  const liked = localStorage.getItem(likeKey);    // Periksa apakah sudah pernah memberi like
-  
-  if (liked) {
-    alert("Kamu sudah memberi like pada karya ini!");
-    return; // Jika sudah memberi like, hentikan eksekusi fungsi
-  }
-
-  // Update like di data lokal
-  data.like = (data.like || 0) + 1;
-  
-  // Simpan ke Firebase
-  const karyaRef = firebase.database().ref(`${kategori}/${data.id}`);
-  karyaRef.update({
-    like: data.like
-  });
-
-  // Tandai bahwa user sudah memberi like
-  localStorage.setItem(likeKey, "true");
-
-  // Update tombol like
-  likeBtn.textContent = "❤️ " + data.like;
-  likeBtn.style.color = "#ff5252";  // Merah (warna like)
-  
-  renderKategori(kategori); // Re-render untuk memperbarui tampilan
-}
-
 
     // Ambil data dari Firebase
     db.ref("jongjava").on("child_added", (snapshot) => {
