@@ -123,16 +123,15 @@
   }
 
   .jj-card {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-left: 4px solid var(--kuning-aksen);
+    background-color: rgba(255, 255, 255, 0.1);
     margin: 15px 5px;
-    border-radius: 6px;
+    border-radius: 30px;
     overflow: hidden;
   }
 
   .jj-header {
-    padding: 15px;
-    background-color: rgba(138, 119, 36, 0.2);
+    padding: 6px;
+    background-color: rgba(255, 255, 255, 0.1);
     cursor: pointer;
   }
 
@@ -155,16 +154,17 @@
   }
 
   .jj-body {
-    display: none;
-    padding: 15px;
-    background-color: rgba(255, 255, 255, 0.02);
-    text-align: left;
-    transition: all 0.3s ease;
-  }
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  padding: 0 15px;
+}
 
-  .jj-card.aktif .jj-body {
-    display: block;
-  }
+.jj-card.aktif .jj-body {
+  max-height: 300px; /* sesuaikan */
+  padding: 15px;
+}
+
 
   h2 {
     color: #fff;
@@ -412,21 +412,5 @@ db.ref("opini").on("child_added", function(snapshot) {
     kontainer.prepend(card);
   });
 </script>
-  
-</script>
-
-  <script>
-  // Cek apakah user datang dari index.html
-  const cameFromWelcome = sessionStorage.getItem('fromWelcome');
-
-  if (!cameFromWelcome) {
-    // Kalau tidak datang dari welcome, arahkan ke ii.html
-    window.location.href = 'index.html';
-  } else {
-    // Kalau valid, hapus flag agar tidak bisa reload terus-terusan tanpa welcome
-    sessionStorage.removeItem('fromWelcome');
-  }
-</script>
-
 </body>
 </html>
