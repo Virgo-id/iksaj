@@ -263,6 +263,93 @@ p {
   }
 }
 
+    /* PAGINATION STYLING */
+#pagination-jongjava,
+#pagination-puisi,
+#pagination-cerpen,
+#pagination-esai,
+#pagination-opini {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+}
+
+#pagination-jongjava button,
+#pagination-puisi button,
+#pagination-cerpen button,
+#pagination-esai button,
+#pagination-opini button {
+  padding: 10px 20px;
+  margin: 5px;
+  background-color: var(--biru-prim);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#pagination-jongjava .prev,
+#pagination-puisi .prev,
+#pagination-cerpen .prev,
+#pagination-esai .prev,
+#pagination-opini .prev {
+  background-color: var(--merah-prim);
+}
+
+#pagination-jongjava .next,
+#pagination-puisi .next,
+#pagination-cerpen .next,
+#pagination-esai .next,
+#pagination-opini .next {
+  background-color: var(--hijau-prim);
+}
+
+#pagination-jongjava button:hover,
+#pagination-puisi button:hover,
+#pagination-cerpen button:hover,
+#pagination-esai button:hover,
+#pagination-opini button:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+}
+
+#pagination-jongjava .prev:hover,
+#pagination-puisi .prev:hover,
+#pagination-cerpen .prev:hover,
+#pagination-esai .prev:hover,
+#pagination-opini .prev:hover {
+  background-color: #c82333;
+}
+
+#pagination-jongjava .next:hover,
+#pagination-puisi .next:hover,
+#pagination-cerpen .next:hover,
+#pagination-esai .next:hover,
+#pagination-opini .next:hover {
+  background-color: #218838;
+}
+
+#pagination-jongjava button:disabled,
+#pagination-puisi button:disabled,
+#pagination-cerpen button:disabled,
+#pagination-esai button:disabled,
+#pagination-opini button:disabled {
+  background-color: #dcdcdc;
+  cursor: not-allowed;
+}
+
+#pagination-jongjava button:disabled:hover,
+#pagination-puisi button:disabled:hover,
+#pagination-cerpen button:disabled:hover,
+#pagination-esai button:disabled:hover,
+#pagination-opini button:disabled:hover {
+  transform: none;
+}
+
 @media (max-width: 480px) {
   /* Sidebar */
   .sidebar {
@@ -299,7 +386,7 @@ p {
   }
 }
 
-  </style>
+ </style>
 </head>
 <body>
 
@@ -320,12 +407,12 @@ p {
   <div class="overlay" id="overlay" onclick="tutupSidebar()"></div>
   
   <div id="overlay-tirai">
-  <div class="tirai kiri"></div>
-  <div class="tirai kanan"></div>
-</div>
-
+    <div class="tirai kiri"></div>
+    <div class="tirai kanan"></div>
+  </div>
 
   <main>
+    <!-- Halaman konten yang sudah ada -->
     <div id="beranda" class="halaman aktif">
       <h2>Selamat Datang di IKSAJ</h2>
       <p>Website resmi organisasi IKSAJ Putra Lubangsa. Didedikasikan untuk menyatukan semangat perjuangan santri asal Jawa.</p>
@@ -336,26 +423,27 @@ p {
       <p>IKSAJ adalah organisasi santri daerah untuk santri asal Jawa di Pondok Pesantren Annuqayah Lubangsa. Menjadi ruang untuk bertumbuh, berkarya, dan mempererat ikatan kekeluargaan daerah.</p>
     </div>
 
-    <div id="jongjava" class="halaman"><h2>Jong Java</h2><div id="daftar-jongjava"></div></div>
-    <div id="puisi" class="halaman"><h2>Gudang Puisi</h2><div id="daftar-puisi"></div></div>
-    <div id="cerpen" class="halaman"><h2>Cerpen</h2><div id="daftar-cerpen"></div></div>
-    <div id="esai" class="halaman"><h2>Esai</h2><div id="daftar-esai"></div></div>
-    <div id="opini" class="halaman"><h2>Opini</h2><div id="daftar-opini"></div></div>
+    <div id="jongjava" class="halaman"><h2>Jong Java</h2><div id="daftar-jongjava"></div><div id="pagination-jongjava"></div></div>
+    <div id="puisi" class="halaman"><h2>Gudang Puisi</h2><div id="daftar-puisi"></div><div id="pagination-puisi"></div></div>
+    <div id="cerpen" class="halaman"><h2>Cerpen</h2><div id="daftar-cerpen"></div><div id="pagination-cerpen"></div></div>
+    <div id="esai" class="halaman"><h2>Esai</h2><div id="daftar-esai"></div><div id="pagination-esai"></div></div>
+    <div id="opini" class="halaman"><h2>Opini</h2><div id="daftar-opini"></div><div id="pagination-opini"></div></div>
   </main>
 
   <script>
     const sidebar = document.getElementById("sidebar");
     const overlay = document.getElementById("overlay");
 
-   
     function bukaSidebar() {
       sidebar.classList.add("tampil");
       overlay.classList.add("aktif");
     }
+
     function tutupSidebar() {
       sidebar.classList.remove("tampil");
       overlay.classList.remove("aktif");
     }
+
     function tampilkan(id) {
       document.querySelectorAll('.halaman').forEach(el => el.classList.remove('aktif'));
       document.getElementById(id).classList.add('aktif');
@@ -391,36 +479,44 @@ p {
       opini: []
     };
 
-    function toggleLike(kategori, data, likeBtn, card) {
-      const likeKey = `like_${kategori}_${data.id}`;
-      const liked = localStorage.getItem(likeKey);
+    const itemsPerPage = 5;
+    let currentPage = 1;
 
-      if (liked) {
-        localStorage.removeItem(likeKey);
-        data.like = (data.like || 1) - 1;
-        if (data.like < 0) data.like = 0;
-        likeBtn.textContent = "🤍 " + data.like;
-        likeBtn.style.color = "#fdd835";
-        updateDataLike(kategori, data.id, data.like);
-      } else {
-        localStorage.setItem(likeKey, "true");
-        data.like = (data.like || 0) + 1;
-        likeBtn.textContent = "❤️ " + data.like;
-        likeBtn.style.color = "#ff5252";
-        updateDataLike(kategori, data.id, data.like);
-      }
-      renderKategori(kategori);
+    // Fungsi pagination
+    function paginateData(kategori) {
+      const start = (currentPage - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      return dataAll[kategori].slice(start, end);
     }
 
-    function updateDataLike(kategori, id, newLike) {
-      const arr = dataAll[kategori];
-      const idx = arr.findIndex(e => e.id === id);
-      if (idx !== -1) {
-        arr[idx].like = newLike;
-      }
-      // Simpan juga di Firebase jika ingin realtime update, atau di localStorage cukup ini saja
+    function renderPagination(kategori) {
+      const paginationContainer = document.getElementById(`pagination-${kategori}`);
+      const totalItems = dataAll[kategori].length;
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+      paginationContainer.innerHTML = "";
+
+      const prevButton = document.createElement("button");
+      prevButton.textContent = "Prev";
+      prevButton.disabled = currentPage === 1;
+      prevButton.onclick = () => {
+        currentPage--;
+        renderKategori(kategori);
+      };
+
+      const nextButton = document.createElement("button");
+      nextButton.textContent = "Next";
+      nextButton.disabled = currentPage === totalPages;
+      nextButton.onclick = () => {
+        currentPage++;
+        renderKategori(kategori);
+      };
+
+      paginationContainer.appendChild(prevButton);
+      paginationContainer.appendChild(nextButton);
     }
 
+    // Fungsi untuk membuat card
     function buatCard(kategori, data) {
       const card = document.createElement("article");
       card.classList.add("jj-card");
@@ -461,7 +557,6 @@ p {
 
       const body = document.createElement("div");
       body.classList.add("jj-body");
-      // Ganti \n jadi <br> agar multiline tampil rapi
       const isiFormatted = (data.isi || "Tidak ada isi karya.").replace(/\n/g, "<br>");
       body.innerHTML = `<p>${isiFormatted}</p>`;
 
@@ -483,43 +578,75 @@ p {
       const kont = kontainer[kategori];
       kont.innerHTML = "";
 
-      // Urutkan berdasarkan like terbanyak turun
-      const sorted = dataAll[kategori].slice().sort((a,b) => (b.like || 0) - (a.like || 0));
+      const paginatedData = paginateData(kategori);
 
-      if (sorted.length === 0) {
+      if (paginatedData.length === 0) {
         kont.textContent = "Belum ada karya di kategori ini.";
         return;
       }
 
-      sorted.forEach(data => {
+      paginatedData.forEach(data => {
         const card = buatCard(kategori, data);
         kont.appendChild(card);
       });
+
+      renderPagination(kategori);
     }
 
-    // Ambil data realtime dari Firebase dan update local data & render ulang
-    function fetchData() {
-      ["jongjava","puisi","cerpen","esai","opini"].forEach(kategori => {
-        db.ref(kategori).once('value').then(snapshot => {
-          const arr = [];
-          snapshot.forEach(child => {
-            const val = child.val();
-            arr.push({
-              id: child.key,
-              judul: val.judul || "",
-              penulis: val.penulis || "",
-              isi: val.isi || "",
-              like: val.like || 0
-            });
-          });
-          dataAll[kategori] = arr;
-          renderKategori(kategori);
-        });
-      });
-    }
+    // Fungsi untuk toggle like
+ function toggleLike(kategori, data, likeBtn, card) {
+  const likeKey = `like_${kategori}_${data.id}`;  // Gunakan kategori dan ID untuk kunci unik
+  const liked = localStorage.getItem(likeKey);    // Periksa apakah sudah pernah memberi like
+  
+  if (liked) {
+    alert("Kamu sudah memberi like pada karya ini!");
+    return; // Jika sudah memberi like, hentikan eksekusi fungsi
+  }
 
-    fetchData();
-  </script>
+  // Update like di data lokal
+  data.like = (data.like || 0) + 1;
+  
+  // Simpan ke Firebase
+  const karyaRef = firebase.database().ref(`${kategori}/${data.id}`);
+  karyaRef.update({
+    like: data.like
+  });
+
+  // Tandai bahwa user sudah memberi like
+  localStorage.setItem(likeKey, "true");
+
+  // Update tombol like
+  likeBtn.textContent = "❤️ " + data.like;
+  likeBtn.style.color = "#ff5252";  // Merah (warna like)
+  
+  renderKategori(kategori); // Re-render untuk memperbarui tampilan
+}
+
+
+    // Ambil data dari Firebase
+    db.ref("jongjava").on("child_added", (snapshot) => {
+      dataAll.jongjava.push(snapshot.val());
+      renderKategori("jongjava");
+    });
+    db.ref("puisi").on("child_added", (snapshot) => {
+      dataAll.puisi.push(snapshot.val());
+      renderKategori("puisi");
+    });
+    db.ref("cerpen").on("child_added", (snapshot) => {
+      dataAll.cerpen.push(snapshot.val());
+      renderKategori("cerpen");
+    });
+    db.ref("esai").on("child_added", (snapshot) => {
+      dataAll.esai.push(snapshot.val());
+      renderKategori("esai");
+    });
+    db.ref("opini").on("child_added", (snapshot) => {
+      dataAll.opini.push(snapshot.val());
+      renderKategori("opini");
+    });
+</script>
+
+
   <script>
   window.onload = () => {
   // Disable scroll dulu
