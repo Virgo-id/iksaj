@@ -9,160 +9,197 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 
   <style>
-    :root {
-      --hijau-gelap: #0b2e1d;
-      --hijau-lembut: #14452f;
-      --kuning-aksen: #fdd835;
-    }
-    html, body {
-      margin: 0; padding: 0;
-      font-family: sans-serif;
-      background: linear-gradient(to bottom right, var(--hijau-gelap), var(--hijau-lembut));
-      color: #e6f2ea;
-      min-height: 100vh;
-    }
-    main {
-      min-height: 100vh;
-      padding: 20px 10px 50px;
-    }
-    .sidebar {
-      position: fixed;
-      top: 0; right: -220px;
-      width: 220px;
-      height: 100%;
-      background: var(--hijau-gelap);
-      box-shadow: -4px 0 10px rgba(0,0,0,0.4);
-      transition: right 0.3s ease;
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      padding-top: 60px;
-      border-left: 2px solid var(--kuning-aksen);
-    }
-    .sidebar.tampil {
-      right: 0;
-    }
-    .sidebar button {
-      padding: 15px;
-      border: none;
-      background: transparent;
-      color: #e6f2ea;
-      text-align: left;
-      font-size: 16px;
-      cursor: pointer;
-      border-left: 4px solid transparent;
-      transition: background 0.2s, border-left 0.3s;
-    }
-    .sidebar button:hover {
-      background: rgba(255,255,255,0.05);
-      border-left: 4px solid var(--kuning-aksen);
-    }
-    .overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: transparent;
-      z-index: 900;
-      display: none;
-    }
-    .overlay.aktif {
-      display: block;
-    }
-    .toggle {
-      position: fixed;
-      top: 20px; right: 20px;
-      width: 40px; height: 40px;
-      background: var(--hijau-lembut);
-      border-radius: 50%;
-      cursor: pointer;
-      z-index: 1100;
-      border: 2px solid var(--kuning-aksen);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .toggle img {
-      width: 22px;
-      height: 22px;
-    }
-    .halaman {
-      display: none;
-      padding: 20px;
-      margin: 10px auto;
-      max-width: 800px;
-      background-color: rgba(138,119,36,0.1);
-      border-radius: 10px;
-      border-left: 4px solid var(--kuning-aksen);
-      backdrop-filter: blur(3px);
-      color: #fefce8;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-    .aktif {
-      display: block;
-    }
-    .jj-card {
-      margin: 15px 5px;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    .jj-header {
-      padding: 6px;
-      cursor: pointer;
-      border-top: 10px solid var(--kuning-aksen);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    .jj-header .kategori {
-      flex: 1;
-      text-align: left;
-      font-weight: bold;
-    }
-    .jj-header .judul {
-      flex: 2;
-      text-align: center;
-      font-size: 1.3em;
-      font-weight: bold;
-      margin-top: 6px;
-    }
-    .jj-header .penulis {
-      flex: 1;
-      text-align: center;
-      font-size: 0.9em;
-      opacity: 0.8;
-      margin-bottom: 4px;
-    }
-    .like-btn {
-      cursor: pointer;
-      font-size: 18px;
-      user-select: none;
-      transition: color 0.3s ease;
-      flex-shrink: 0;
-    }
-    .jj-body {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
-      padding: 0 15px;
-      border-bottom: 2px solid var(--kuning-aksen);
-      color: #fefce8;
-      white-space: pre-wrap; /* jaga whitespace & linebreak */
-    }
-    h2 {
-      color: #fff;
-      text-align: center;
-    }
-    p {
-      color: #d0e4d2;
-      margin-top: 0.6em;
-      white-space: pre-wrap; /* supaya garis baru juga terlihat */
-    }
-    
-    #overlay-tirai {
+  :root {
+  --hijau-gelap: #0b2e1d;
+  --hijau-lembut: #14452f;
+  --kuning-aksen: #fdd835;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background: linear-gradient(to bottom right, var(--hijau-gelap), var(--hijau-lembut));
+  color: #e6f2ea;
+  min-height: 100vh;
+  overflow-x: hidden; /* Untuk menghindari scroll horizontal */
+}
+
+/* MAIN SECTION */
+main {
+  min-height: 100vh;
+  padding: 20px 10px 50px;
+  box-sizing: border-box;
+}
+
+/* SIDEBAR */
+.sidebar {
   position: fixed;
-  top: 0; left: 0; width: 100vw; height: 100vh;
-  z-index: 2000; /* pastikan di atas konten */
+  top: 0;
+  right: -220px;
+  width: 220px;
+  height: 100%;
+  background: var(--hijau-gelap);
+  box-shadow: -4px 0 10px rgba(0, 0, 0, 0.4);
+  transition: right 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding-top: 60px;
+  border-left: 2px solid var(--kuning-aksen);
+}
+
+.sidebar.tampil {
+  right: 0;
+}
+
+.sidebar button {
+  padding: 15px;
+  border: none;
+  background: transparent;
+  color: #e6f2ea;
+  text-align: left;
+  font-size: 16px;
+  cursor: pointer;
+  border-left: 4px solid transparent;
+  transition: background 0.2s, border-left 0.3s;
+}
+
+.sidebar button:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 4px solid var(--kuning-aksen);
+}
+
+/* TOGGLE BUTTON */
+.toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  background: var(--hijau-lembut);
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1100;
+  border: 2px solid var(--kuning-aksen);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle img {
+  width: 22px;
+  height: 22px;
+}
+
+/* OVERLAY */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  z-index: 900;
+  display: none;
+}
+
+.overlay.aktif {
+  display: block;
+}
+
+/* PAGE CONTENT */
+.halaman {
+  display: none;
+  padding: 20px;
+  margin: 10px auto;
+  max-width: 800px;
+  background-color: rgba(138, 119, 36, 0.1);
+  border-radius: 10px;
+  border-left: 4px solid var(--kuning-aksen);
+  backdrop-filter: blur(3px);
+  color: #fefce8;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.halaman.aktif {
+  display: block;
+}
+
+/* CARDS (JongJava, Puisi, etc.) */
+.jj-card {
+  margin: 15px 5px;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.jj-header {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.jj-header .kategori {
+  flex: 1;
+  text-align: left;
+  font-weight: bold;
+}
+
+.jj-header .judul {
+  flex: 2;
+  text-align: center;
+  font-size: 1.3em;
+  font-weight: bold;
+  margin-top: 6px;
+}
+
+.jj-header .penulis {
+  flex: 1;
+  text-align: center;
+  font-size: 0.9em;
+  opacity: 0.8;
+  margin-bottom: 4px;
+}
+
+.like-btn {
+  cursor: pointer;
+  font-size: 18px;
+  user-select: none;
+  transition: color 0.3s ease;
+  flex-shrink: 0;
+}
+
+.jj-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  padding: 0 15px;
+  border-bottom: 2px solid var(--kuning-aksen);
+  color: #fefce8;
+  white-space: pre-wrap; /* Menjaga whitespace & linebreak */
+}
+
+h2 {
+  color: #fff;
+  text-align: center;
+}
+
+p {
+  color: #d0e4d2;
+  margin-top: 0.6em;
+  white-space: pre-wrap; /* Menjaga garis baru */
+}
+
+/* TIRAI ANIMASI */
+#overlay-tirai {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2000;
   pointer-events: all;
   overflow: hidden;
   background: transparent;
@@ -190,6 +227,76 @@
 
 #overlay-tirai.buka .tirai.kanan {
   transform: translateX(100%);
+}
+
+/* MEDIA QUERIES FOR RESPONSIVENESS */
+@media (max-width: 768px) {
+  /* Sidebar */
+  .sidebar {
+    width: 200px; /* Lebar sidebar di layar kecil */
+  }
+
+  .toggle {
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .sidebar button {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .halaman {
+    max-width: 100%; /* Lebar halaman penuh */
+    margin: 10px;
+    padding: 15px;
+  }
+
+  .jj-card {
+    margin: 10px 0;
+  }
+
+  .jj-header {
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Sidebar */
+  .sidebar {
+    width: 180px; /* Lebar sidebar lebih kecil lagi */
+  }
+
+  .sidebar button {
+    font-size: 12px; /* Ukuran font lebih kecil */
+    padding: 10px; /* Padding lebih kecil */
+  }
+
+  /* Toggle Button */
+  .toggle {
+    width: 35px;
+    height: 35px;
+  }
+
+  .toggle img {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Konten */
+  .halaman {
+    padding: 10px;
+  }
+
+  .jj-card {
+    margin: 10px 0;
+  }
+
+  .jj-header {
+    font-size: 14px; /* Font size lebih kecil */
+  }
 }
 
   </style>
@@ -240,6 +347,7 @@
     const sidebar = document.getElementById("sidebar");
     const overlay = document.getElementById("overlay");
 
+   
     function bukaSidebar() {
       sidebar.classList.add("tampil");
       overlay.classList.add("aktif");
