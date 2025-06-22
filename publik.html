@@ -273,7 +273,7 @@
   });
 
   // Firebase
-  const firebaseConfig = {
+   const firebaseConfig = {
     apiKey: "AIzaSyBYoiXWgNvn-1ZO3tD-ne-6Veevj3FRiMo",
     authDomain: "ikatansantriannuqayahjawa.firebaseapp.com",
     databaseURL: "https://ikatansantriannuqayahjawa-default-rtdb.firebaseio.com",
@@ -286,122 +286,62 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
 
-  const kontainer = document.getElementById("daftarJJ");
+  // Container elemen HTML tempat data ditampilkan
+  const kontainerJJ = document.getElementById("daftarJJ");
+  const kontainerPuisi = document.getElementById("daftarPuisi");
+  const kontainerCerpen = document.getElementById("daftarCerpen");
+  const kontainerEsai = document.getElementById("daftarEsai");
+  const kontainerOpini = document.getElementById("daftarOpini");
 
-  db.ref("jongjava").on("child_added", function(snapshot) {
-    const data = snapshot.val();
-    
-
-// ================= PUISI =================
-const daftarPuisi = document.getElementById("daftarPuisi");
-
-db.ref("puisi").on("child_added", function(snapshot) {
-  const data = snapshot.val();
-
-  const card = document.createElement("div");
-  card.className = "jj-card";
-  card.innerHTML = `
-    <div class="jj-header">
-      <div class="kategori"><strong>Puisi</strong></div>
-      <div class="judul">${data.judul}</div>
-      <div class="penulis"><small>Oleh: ${data.penulis}</small></div>
-    </div>
-    <div class="jj-body">
-      <p>${data.isi.replace(/\n/g, "<br>")}</p>
-    </div>
-  `;
-  card.querySelector(".jj-header").addEventListener("click", () => {
-    card.classList.toggle("aktif");
-  });
-  daftarPuisi.prepend(card);
-});
-
-// ================= CERPEN =================
-const daftarCerpen = document.getElementById("daftarCerpen");
-
-db.ref("cerpen").on("child_added", function(snapshot) {
-  const data = snapshot.val();
-
-  const card = document.createElement("div");
-  card.className = "jj-card";
-  card.innerHTML = `
-    <div class="jj-header">
-      <div class="kategori"><strong>Cerpen</strong></div>
-      <div class="judul">${data.judul}</div>
-      <div class="penulis"><small>Oleh: ${data.penulis}</small></div>
-    </div>
-    <div class="jj-body">
-      <p>${data.isi.replace(/\n/g, "<br>")}</p>
-    </div>
-  `;
-  card.querySelector(".jj-header").addEventListener("click", () => {
-    card.classList.toggle("aktif");
-  });
-  daftarCerpen.prepend(card);
-});
-
-// ================= ESAI =================
-const daftarEsai = document.getElementById("daftarEsai");
-
-db.ref("esai").on("child_added", function(snapshot) {
-  const data = snapshot.val();
-
-  const card = document.createElement("div");
-  card.className = "jj-card";
-  card.innerHTML = `
-    <div class="jj-header">
-      <div class="kategori"><strong>Esai</strong></div>
-      <div class="judul">${data.judul}</div>
-      <div class="penulis"><small>Oleh: ${data.penulis}</small></div>
-    </div>
-    <div class="jj-body">
-      <p>${data.isi.replace(/\n/g, "<br>")}</p>
-    </div>
-  `;
-  card.querySelector(".jj-header").addEventListener("click", () => {
-    card.classList.toggle("aktif");
-  });
-  daftarEsai.prepend(card);
-});
-
-// ================= OPINI =================
-const daftarOpini = document.getElementById("daftarOpini");
-
-db.ref("opini").on("child_added", function(snapshot) {
-  const data = snapshot.val();
-
-  const card = document.createElement("div");
-  card.className = "jj-card";
-  card.innerHTML = `
-    <div class="jj-header">
-      <div class="kategori"><strong>Opini</strong></div>
-      <div class="judul">${data.judul}</div>
-      <div class="penulis"><small>Oleh: ${data.penulis}</small></div>
-    </div>
-    <div class="jj-body">
-      <p>${data.isi.replace(/\n/g, "<br>")}</p>
-    </div>
-  `;
-  card.querySelector(".jj-header").addEventListener("click", () => {
-    card.classList.toggle("aktif");
-  });
-  daftarOpini.prepend(card);
-});
-
-
+  // Fungsi pembuat card artikel
+  function buatCard(data, kategori) {
     const card = document.createElement("div");
     card.className = "jj-card";
-
     card.innerHTML = `
-  <div class="jj-header">
-    <div class="kategori"><strong>${data.kategori}</strong></div>
-    <div class="judul">${data.judul}</div>
-    <div class="penulis"><small>Oleh: ${data.penulis}</small></div>
-  </div>
-  <div class="jj-body">
-      <p>${data.isi.replace(/\n/g, "<br>")}</p>
-  </div>
-`;
+      <div class="jj-header">
+        <div class="kategori"><strong>${kategori}</strong></div>
+        <div class="judul">${data.judul}</div>
+        <div class="penulis"><small>Oleh: ${data.penulis}</small></div>
+      </div>
+      <div class="jj-body">
+        <p>${data.isi.replace(/\n/g, "<br>")}</p>
+      </div>
+    `;
+    card.querySelector(".jj-header").addEventListener("click", () => {
+      card.classList.toggle("aktif");
+    });
+    return card;
+  }
+
+  // Listener untuk jongjava
+  db.ref("jongjava").on("child_added", snapshot => {
+    const data = snapshot.val();
+    kontainerJJ.prepend(buatCard(data, data.kategori || "Jong Java"));
+  });
+
+  // Listener untuk puisi
+  db.ref("puisi").on("child_added", snapshot => {
+    const data = snapshot.val();
+    kontainerPuisi.prepend(buatCard(data, "Puisi"));
+  });
+
+  // Listener untuk cerpen
+  db.ref("cerpen").on("child_added", snapshot => {
+    const data = snapshot.val();
+    kontainerCerpen.prepend(buatCard(data, "Cerpen"));
+  });
+
+  // Listener untuk esai
+  db.ref("esai").on("child_added", snapshot => {
+    const data = snapshot.val();
+    kontainerEsai.prepend(buatCard(data, "Esai"));
+  });
+
+  // Listener untuk opini
+  db.ref("opini").on("child_added", snapshot => {
+    const data = snapshot.val();
+    kontainerOpini.prepend(buatCard(data, "Opini"));
+  });
 
 
     // Tambahkan interaksi dropdown
