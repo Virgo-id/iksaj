@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>IKSAJ</title>
+  <title>IKSAJ</title>
   <link rel="icon" type="image/png" href="logo.png">
 
   <!-- Firebase SDK v9 (compat) -->
@@ -11,191 +11,181 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 
   <style>
-  :root {
-    --hijau-gelap: #0b2e1d;
-    --hijau-lembut: #14452f;
-    --kuning-aksen: #fdd835;
-  }
+    :root {
+      --hijau-gelap: #0b2e1d;
+      --hijau-lembut: #14452f;
+      --kuning-aksen: #fdd835;
+    }
 
-  html, body {
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-    background: linear-gradient(to bottom right, var(--hijau-gelap), var(--hijau-lembut));
-    color: #e6f2ea;
-    min-height: 100vh;
-  }
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background: linear-gradient(to bottom right, var(--hijau-gelap), var(--hijau-lembut));
+      color: #e6f2ea;
+      min-height: 100vh;
+    }
 
-  main {
-    min-height: 100vh;
-    padding: 20px 10px 50px;
-  }
+    main {
+      min-height: 100vh;
+      padding: 20px 10px 50px;
+    }
 
-  .sidebar {
-    position: fixed;
-    top: 0;
-    right: -220px;
-    width: 220px;
-    height: 100%;
-    background: var(--hijau-gelap);
-    box-shadow: -4px 0 10px rgba(0, 0, 0, 0.4);
-    transition: right 0.3s ease;
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    padding-top: 60px;
-    border-left: 2px solid var(--kuning-aksen);
-  }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -220px;
+      width: 220px;
+      height: 100%;
+      background: var(--hijau-gelap);
+      box-shadow: -4px 0 10px rgba(0, 0, 0, 0.4);
+      transition: right 0.3s ease;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      padding-top: 60px;
+      border-left: 2px solid var(--kuning-aksen);
+    }
 
-  .sidebar.tampil {
-    right: 0;
-  }
+    .sidebar.tampil {
+      right: 0;
+    }
 
-  .sidebar button {
-    padding: 15px;
-    border: none;
-    background: transparent;
-    color: #e6f2ea;
-    text-align: left;
-    font-size: 16px;
-    cursor: pointer;
-    border-left: 4px solid transparent;
-    transition: background 0.2s, border-left 0.3s;
-  }
+    .sidebar button {
+      padding: 15px;
+      border: none;
+      background: transparent;
+      color: #e6f2ea;
+      text-align: left;
+      font-size: 16px;
+      cursor: pointer;
+      border-left: 4px solid transparent;
+      transition: background 0.2s, border-left 0.3s;
+    }
 
-  .sidebar button:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-left: 4px solid var(--kuning-aksen);
-  }
+    .sidebar button:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 4px solid var(--kuning-aksen);
+    }
 
-  .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: transparent;
-    z-index: 900;
-    display: none;
-  }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: transparent;
+      z-index: 900;
+      display: none;
+    }
 
-  .overlay.aktif {
-    display: block;
-  }
+    .overlay.aktif {
+      display: block;
+    }
 
-  .toggle {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 40px;
-    height: 40px;
-    background: var(--hijau-lembut);
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 1100;
-    border: 2px solid var(--kuning-aksen);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+    .toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background: var(--hijau-lembut);
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 1100;
+      border: 2px solid var(--kuning-aksen);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-  .toggle img {
-    width: 22px;
-    height: 22px;
-  }
+    .toggle img {
+      width: 22px;
+      height: 22px;
+    }
 
-  .halaman {
-    display: none;
-    padding: 20px;
-    margin: 10px auto;
-    max-width: 800px;
-    background-color: rgba(138, 119, 36, 0.1);
-    border-radius: 10px;
-    border-left: 4px solid var(--kuning-aksen);
-    backdrop-filter: blur(3px);
-    color: #fefce8;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  }
+    .halaman {
+      display: none;
+      padding: 20px;
+      margin: 10px auto;
+      max-width: 800px;
+      background-color: rgba(138, 119, 36, 0.1);
+      border-radius: 10px;
+      border-left: 4px solid var(--kuning-aksen);
+      backdrop-filter: blur(3px);
+      color: #fefce8;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
 
-  .aktif {
-    display: block;
-  }
+    .aktif {
+      display: block;
+    }
 
-  .jj-card {
-    background-color: rgba(255, 255, 255, 0.1);
-    margin: 15px 5px;
-    border-radius: 30px;
-    overflow: hidden;
-  }
+    .jj-card {
+      margin: 15px 5px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
 
-  .jj-header {
-    padding: 6px;
-    background-color: rgba(255, 255, 255, 0.1);
-    cursor: pointer;
-  }
+    .jj-header {
+      padding: 6px;
+      cursor: pointer;
+      border-top: 10px solid var(--kuning-aksen); /* Garis kuning di atas header */
+    }
 
-  .jj-header .kategori {
-    text-align: left;
-  }
+    .jj-header .kategori {
+      text-align: left;
+    }
 
-  .jj-header .judul {
-    text-align: center;
-    font-size: 1.3em;
-    font-weight: bold;
-    margin-top: 6px;
-  }
+    .jj-header .judul {
+      text-align: center;
+      font-size: 1.3em;
+      font-weight: bold;
+      margin-top: 6px;
+    }
 
-  .jj-header .penulis {
-    text-align: center;
-    font-size: 0.9em;
-    opacity: 0.8;
-    margin-bottom: 4px;
-  }
+    .jj-header .penulis {
+      text-align: center;
+      font-size: 0.9em;
+      opacity: 0.8;
+      margin-bottom: 4px;
+    }
 
-  .jj-body {
+    .jj-body {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease;
   padding: 0 15px;
-}
-
-.jj-card.aktif .jj-body {
-  max-height: 300px; /* sesuaikan */
-  padding: 15px;
+  border-bottom: 2px solid var(--kuning-aksen); /* Garis kuning di bawah body */
 }
 
 
-  h2 {
-    color: #fff;
-    text-align: center;
-  }
+    h2 {
+      color: #fff;
+      text-align: center;
+    }
 
-  p {
-    color: #d0e4d2;
-    margin-top: 0.6em;
-  }
-</style>
-
-
-
+    p {
+      color: #d0e4d2;
+      margin-top: 0.6em;
+    }
+  </style>
 </head>
 <body>
 
   <div class="toggle" onclick="bukaSidebar()">
-  <img src="logo.png" alt="Menu" />
-</div>
+    <img src="logo.png" alt="Menu" />
+  </div>
 
-
- <div class="sidebar" id="sidebar">
-  <button onclick="tampilkan('beranda')">Beranda</button>
-  <button onclick="tampilkan('tentang')">Tentang IKSAJ</button>
-  <button onclick="tampilkan('jongjava')">Jong Java</button>
-  <button onclick="tampilkan('puisi')">Gudang Puisi</button>
-  <button onclick="tampilkan('cerpen')">Cerpen</button>
-  <button onclick="tampilkan('esai')">Esai</button>
-  <button onclick="tampilkan('opini')">Opini</button>
-</div>
-
+  <div class="sidebar" id="sidebar">
+    <button onclick="tampilkan('beranda')">Beranda</button>
+    <button onclick="tampilkan('tentang')">Tentang IKSAJ</button>
+    <button onclick="tampilkan('jongjava')">Jong Java</button>
+    <button onclick="tampilkan('puisi')">Gudang Puisi</button>
+    <button onclick="tampilkan('cerpen')">Cerpen</button>
+    <button onclick="tampilkan('esai')">Esai</button>
+    <button onclick="tampilkan('opini')">Opini</button>
+  </div>
 
   <div class="overlay" id="overlay" onclick="tutupSidebar()"></div>
 
@@ -210,138 +200,120 @@
       <p>IKSAJ adalah organisasi santri daerah untuk santri asal Jawa di Pondok Pesantren Annuqayah Lubangsa. Menjadi ruang untuk bertumbuh, berkarya, dan mempererat ikatan kekeluargaan daerah.</p>
     </div>
 
-    <div id="jongjava" class="halaman">
-      <h2>Jong Java</h2>
-      <div id="daftarJJ"></div>
-    </div>
-
-<div id="puisi" class="halaman">
-  <h2>Gudang Puisi</h2>
-  <div id="daftarPuisi"></div>
-</div>
-
-<div id="cerpen" class="halaman">
-  <h2>Cerpen</h2>
-  <div id="daftarCerpen"></div>
-</div>
-
-<div id="esai" class="halaman">
-  <h2>Esai</h2>
-  <div id="daftarEsai"></div>
-</div>
-
-<div id="opini" class="halaman">
-  <h2>Opini</h2>
-  <div id="daftarOpini"></div>
-</div>
-
+    <div id="jongjava" class="halaman"><h2>Jong Java</h2><div id="daftarJJ"></div></div>
+    <div id="puisi" class="halaman"><h2>Gudang Puisi</h2><div id="daftarPuisi"></div></div>
+    <div id="cerpen" class="halaman"><h2>Cerpen</h2><div id="daftarCerpen"></div></div>
+    <div id="esai" class="halaman"><h2>Esai</h2><div id="daftarEsai"></div></div>
+    <div id="opini" class="halaman"><h2>Opini</h2><div id="daftarOpini"></div></div>
   </main>
 
-<script>
-  // Sidebar dan Navigasi
-  const sidebar = document.getElementById("sidebar");
-  const overlay = document.getElementById("overlay");
+  <script>
+    // Sidebar dan Navigasi
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
 
-  function bukaSidebar() {
-    sidebar.classList.add("tampil");
-    overlay.classList.add("aktif");
-  }
-
-  function tutupSidebar() {
-    sidebar.classList.remove("tampil");
-    overlay.classList.remove("aktif");
-  }
-
-  function tampilkan(id) {
-    document.querySelectorAll('.halaman').forEach(el => el.classList.remove('aktif'));
-    document.getElementById(id).classList.add('aktif');
-    tutupSidebar();
-  }
-
-  // Swipe gesture buka sidebar
-  let startX = 0;
-  document.addEventListener("touchstart", function(e) {
-    startX = e.touches[0].clientX;
-  });
-
-  document.addEventListener("touchend", function(e) {
-    let endX = e.changedTouches[0].clientX;
-    if (startX - endX < -100) {
-      bukaSidebar();
+    function bukaSidebar() {
+      sidebar.classList.add("tampil");
+      overlay.classList.add("aktif");
     }
-  });
 
-  // Firebase config dan inisialisasi
-  const firebaseConfig = {
-    apiKey: "AIzaSyBYoiXWgNvn-1ZO3tD-ne-6Veevj3FRiMo",
-    authDomain: "ikatansantriannuqayahjawa.firebaseapp.com",
-    databaseURL: "https://ikatansantriannuqayahjawa-default-rtdb.firebaseio.com",
-    projectId: "ikatansantriannuqayahjawa",
-    storageBucket: "ikatansantriannuqayahjawa.firebasestorage.app",
-    messagingSenderId: "365298387675",
-    appId: "1:365298387675:web:901ec7c98db9d18a665afe"
-  };
+    function tutupSidebar() {
+      sidebar.classList.remove("tampil");
+      overlay.classList.remove("aktif");
+    }
 
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
+    function tampilkan(id) {
+      document.querySelectorAll('.halaman').forEach(el => el.classList.remove('aktif'));
+      document.getElementById(id).classList.add('aktif');
+      tutupSidebar();
+    }
 
-  // Container elemen HTML tempat data ditampilkan
-  const kontainerJJ = document.getElementById("daftarJJ");
-  const kontainerPuisi = document.getElementById("daftarPuisi");
-  const kontainerCerpen = document.getElementById("daftarCerpen");
-  const kontainerEsai = document.getElementById("daftarEsai");
-  const kontainerOpini = document.getElementById("daftarOpini");
-
-  // Fungsi pembuat card artikel
-  function buatCard(data, kategori) {
-    const card = document.createElement("div");
-    card.className = "jj-card";
-    card.innerHTML = `
-      <div class="jj-header">
-        <div class="kategori"><strong>${kategori}</strong></div>
-        <div class="judul">${data.judul}</div>
-        <div class="penulis"><small>Oleh: ${data.penulis}</small></div>
-      </div>
-      <div class="jj-body">
-        <p>${data.isi.replace(/\n/g, "<br>")}</p>
-      </div>
-    `;
-    card.querySelector(".jj-header").addEventListener("click", () => {
-      card.classList.toggle("aktif");
+    // Swipe gesture buka sidebar
+    let startX = 0;
+    document.addEventListener("touchstart", function(e) {
+      startX = e.touches[0].clientX;
     });
-    return card;
-  }
+    document.addEventListener("touchend", function(e) {
+      let endX = e.changedTouches[0].clientX;
+      if (startX - endX < -100) bukaSidebar();
+    });
 
-  // Listener untuk jongjava
-  db.ref("jongjava").on("child_added", snapshot => {
-    const data = snapshot.val();
-    kontainerJJ.prepend(buatCard(data, data.kategori || "Jong Java"));
-  });
+    // Firebase init
+    const firebaseConfig = {
+      apiKey: "AIzaSyBYoiXWgNvn-1ZO3tD-ne-6Veevj3FRiMo",
+      authDomain: "ikatansantriannuqayahjawa.firebaseapp.com",
+      databaseURL: "https://ikatansantriannuqayahjawa-default-rtdb.firebaseio.com",
+      projectId: "ikatansantriannuqayahjawa",
+      storageBucket: "ikatansantriannuqayahjawa.appspot.com",
+      messagingSenderId: "365298387675",
+      appId: "1:365298387675:web:901ec7c98db9d18a665afe"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
-  // Listener untuk puisi
-  db.ref("puisi").on("child_added", snapshot => {
-    const data = snapshot.val();
-    kontainerPuisi.prepend(buatCard(data, "Puisi"));
-  });
+    // Kontainer
+    const kontainerJJ = document.getElementById("daftarJJ");
+    const kontainerPuisi = document.getElementById("daftarPuisi");
+    const kontainerCerpen = document.getElementById("daftarCerpen");
+    const kontainerEsai = document.getElementById("daftarEsai");
+    const kontainerOpini = document.getElementById("daftarOpini");
 
-  // Listener untuk cerpen
-  db.ref("cerpen").on("child_added", snapshot => {
-    const data = snapshot.val();
-    kontainerCerpen.prepend(buatCard(data, "Cerpen"));
-  });
+    // Animasi Dropdown
+    function toggleCard(card) {
+      const body = card.querySelector(".jj-body");
+      const isOpen = card.classList.contains("aktif");
 
-  // Listener untuk esai
-  db.ref("esai").on("child_added", snapshot => {
-    const data = snapshot.val();
-    kontainerEsai.prepend(buatCard(data, "Esai"));
-  });
+      if (isOpen) {
+        body.style.maxHeight = body.scrollHeight + "px";
+        requestAnimationFrame(() => {
+          body.style.maxHeight = "0";
+        });
+        card.classList.remove("aktif");
+      } else {
+        card.classList.add("aktif");
+        body.style.maxHeight = body.scrollHeight + "px";
+      }
+    }
 
-  // Listener untuk opini
-  db.ref("opini").on("child_added", snapshot => {
-    const data = snapshot.val();
-    kontainerOpini.prepend(buatCard(data, "Opini"));
-  });
-</script>
+    // Buat Card
+    function buatCard(data, kategori) {
+      const card = document.createElement("div");
+      card.className = "jj-card";
+      card.innerHTML = `
+        <div class="jj-header">
+          <div class="kategori"><strong>${kategori}</strong></div>
+          <div class="judul">${data.judul}</div>
+          <div class="penulis"><small>Oleh: ${data.penulis}</small></div>
+        </div>
+        <div class="jj-body">
+          <p>${data.isi.replace(/\n/g, "<br>")}</p>
+        </div>
+      `;
+      card.querySelector(".jj-header").addEventListener("click", () => toggleCard(card));
+      return card;
+    }
 
+    // Ambil Data Firebase
+    db.ref("jongjava").on("child_added", snapshot => {
+      const data = snapshot.val();
+      kontainerJJ.prepend(buatCard(data, data.kategori || "Jong Java"));
+    });
+    db.ref("puisi").on("child_added", snapshot => {
+      const data = snapshot.val();
+      kontainerPuisi.prepend(buatCard(data, "Puisi"));
+    });
+    db.ref("cerpen").on("child_added", snapshot => {
+      const data = snapshot.val();
+      kontainerCerpen.prepend(buatCard(data, "Cerpen"));
+    });
+    db.ref("esai").on("child_added", snapshot => {
+      const data = snapshot.val();
+      kontainerEsai.prepend(buatCard(data, "Esai"));
+    });
+    db.ref("opini").on("child_added", snapshot => {
+      const data = snapshot.val();
+      kontainerOpini.prepend(buatCard(data, "Opini"));
+    });
+  </script>
 </body>
 </html>
