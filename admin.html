@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -50,13 +51,16 @@
   }
 
   button {
-    margin-top: 15px;
-    background: var(--kuning);
-    border: none;
-    padding: 10px 20px;
-    font-weight: bold;
-    cursor: pointer;
-  }
+  width: 70px;         /* ukuran lebar */
+  height: 30px;        /* ukuran tinggi harus sama */
+  border-radius: 30%;  /* membuat bentuk bulat */
+  background: var(--kuning);  /* warna latar */
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  padding: 0;
+}
 
   .card {
     background: rgba(255,255,255,0.05);
@@ -275,12 +279,13 @@
       // Tampilkan kategori hanya kalau ada
       const kategoriText = d.kategori ? `[${d.kategori}] ` : "";
 
-      el.innerHTML = `
-        <strong>${kategoriText}${d.judul}</strong><br>
-        <small>${d.penulis}</small>
-        <p>${d.isi}</p>
-        <button onclick="hapus('${path}','${id}',this)">Hapus</button>
-      `;
+ el.innerHTML = `
+  <strong>${kategoriText}${d.judul}</strong><br>
+  <small>${d.penulis}</small>
+  <p>${d.isi.replace(/\n/g, "<br>")}</p>
+  <button onclick="hapus('${path}','${id}',this)">Hapus</button>
+`;
+
       list.prepend(el);
     });
   }
