@@ -2,11 +2,9 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>IKSAJ</title>
-  <link rel="icon" type="image/png" href="logo.png">
-
-  <!-- Firebase SDK v9 (compat) -->
+  <link rel="icon" type="image/png" href="logo.png" />
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 
@@ -16,29 +14,24 @@
       --hijau-lembut: #14452f;
       --kuning-aksen: #fdd835;
     }
-
     html, body {
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       font-family: sans-serif;
       background: linear-gradient(to bottom right, var(--hijau-gelap), var(--hijau-lembut));
       color: #e6f2ea;
       min-height: 100vh;
     }
-
     main {
       min-height: 100vh;
       padding: 20px 10px 50px;
     }
-
     .sidebar {
       position: fixed;
-      top: 0;
-      right: -220px;
+      top: 0; right: -220px;
       width: 220px;
       height: 100%;
       background: var(--hijau-gelap);
-      box-shadow: -4px 0 10px rgba(0, 0, 0, 0.4);
+      box-shadow: -4px 0 10px rgba(0,0,0,0.4);
       transition: right 0.3s ease;
       z-index: 1000;
       display: flex;
@@ -46,11 +39,9 @@
       padding-top: 60px;
       border-left: 2px solid var(--kuning-aksen);
     }
-
     .sidebar.tampil {
       right: 0;
     }
-
     .sidebar button {
       padding: 15px;
       border: none;
@@ -62,33 +53,25 @@
       border-left: 4px solid transparent;
       transition: background 0.2s, border-left 0.3s;
     }
-
     .sidebar button:hover {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255,255,255,0.05);
       border-left: 4px solid var(--kuning-aksen);
     }
-
     .overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
       background: transparent;
       z-index: 900;
       display: none;
     }
-
     .overlay.aktif {
       display: block;
     }
-
     .toggle {
       position: fixed;
-      top: 20px;
-      right: 20px;
-      width: 40px;
-      height: 40px;
+      top: 20px; right: 20px;
+      width: 40px; height: 40px;
       background: var(--hijau-lembut);
       border-radius: 50%;
       cursor: pointer;
@@ -98,76 +81,82 @@
       align-items: center;
       justify-content: center;
     }
-
     .toggle img {
       width: 22px;
       height: 22px;
     }
-
     .halaman {
       display: none;
       padding: 20px;
       margin: 10px auto;
       max-width: 800px;
-      background-color: rgba(138, 119, 36, 0.1);
+      background-color: rgba(138,119,36,0.1);
       border-radius: 10px;
       border-left: 4px solid var(--kuning-aksen);
       backdrop-filter: blur(3px);
       color: #fefce8;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
-
     .aktif {
       display: block;
     }
-
     .jj-card {
       margin: 15px 5px;
       border-radius: 10px;
       overflow: hidden;
     }
-
     .jj-header {
       padding: 6px;
       cursor: pointer;
-      border-top: 10px solid var(--kuning-aksen); /* Garis kuning di atas header */
+      border-top: 10px solid var(--kuning-aksen);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
     }
-
     .jj-header .kategori {
+      flex: 1;
       text-align: left;
+      font-weight: bold;
     }
-
     .jj-header .judul {
+      flex: 2;
       text-align: center;
       font-size: 1.3em;
       font-weight: bold;
       margin-top: 6px;
     }
-
     .jj-header .penulis {
+      flex: 1;
       text-align: center;
       font-size: 0.9em;
       opacity: 0.8;
       margin-bottom: 4px;
     }
-
+    .like-btn {
+      cursor: pointer;
+      font-size: 18px;
+      user-select: none;
+      transition: color 0.3s ease;
+      flex-shrink: 0;
+    }
     .jj-body {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-  padding: 0 15px;
-  border-bottom: 2px solid var(--kuning-aksen); /* Garis kuning di bawah body */
-}
-
-
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      padding: 0 15px;
+      border-bottom: 2px solid var(--kuning-aksen);
+      color: #fefce8;
+      white-space: pre-wrap; /* jaga whitespace & linebreak */
+    }
     h2 {
       color: #fff;
       text-align: center;
     }
-
     p {
       color: #d0e4d2;
       margin-top: 0.6em;
+      white-space: pre-wrap; /* supaya garis baru juga terlihat */
     }
   </style>
 </head>
@@ -200,15 +189,14 @@
       <p>IKSAJ adalah organisasi santri daerah untuk santri asal Jawa di Pondok Pesantren Annuqayah Lubangsa. Menjadi ruang untuk bertumbuh, berkarya, dan mempererat ikatan kekeluargaan daerah.</p>
     </div>
 
-    <div id="jongjava" class="halaman"><h2>Jong Java</h2><div id="daftarJJ"></div></div>
-    <div id="puisi" class="halaman"><h2>Gudang Puisi</h2><div id="daftarPuisi"></div></div>
-    <div id="cerpen" class="halaman"><h2>Cerpen</h2><div id="daftarCerpen"></div></div>
-    <div id="esai" class="halaman"><h2>Esai</h2><div id="daftarEsai"></div></div>
-    <div id="opini" class="halaman"><h2>Opini</h2><div id="daftarOpini"></div></div>
+    <div id="jongjava" class="halaman"><h2>Jong Java</h2><div id="daftar-jongjava"></div></div>
+    <div id="puisi" class="halaman"><h2>Gudang Puisi</h2><div id="daftar-puisi"></div></div>
+    <div id="cerpen" class="halaman"><h2>Cerpen</h2><div id="daftar-cerpen"></div></div>
+    <div id="esai" class="halaman"><h2>Esai</h2><div id="daftar-esai"></div></div>
+    <div id="opini" class="halaman"><h2>Opini</h2><div id="daftar-opini"></div></div>
   </main>
 
   <script>
-    // Sidebar dan Navigasi
     const sidebar = document.getElementById("sidebar");
     const overlay = document.getElementById("overlay");
 
@@ -216,27 +204,15 @@
       sidebar.classList.add("tampil");
       overlay.classList.add("aktif");
     }
-
     function tutupSidebar() {
       sidebar.classList.remove("tampil");
       overlay.classList.remove("aktif");
     }
-
     function tampilkan(id) {
       document.querySelectorAll('.halaman').forEach(el => el.classList.remove('aktif'));
       document.getElementById(id).classList.add('aktif');
       tutupSidebar();
     }
-
-    // Swipe gesture buka sidebar
-    let startX = 0;
-    document.addEventListener("touchstart", function(e) {
-      startX = e.touches[0].clientX;
-    });
-    document.addEventListener("touchend", function(e) {
-      let endX = e.changedTouches[0].clientX;
-      if (startX - endX < -100) bukaSidebar();
-    });
 
     // Firebase init
     const firebaseConfig = {
@@ -251,69 +227,150 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // Kontainer
-    const kontainerJJ = document.getElementById("daftarJJ");
-    const kontainerPuisi = document.getElementById("daftarPuisi");
-    const kontainerCerpen = document.getElementById("daftarCerpen");
-    const kontainerEsai = document.getElementById("daftarEsai");
-    const kontainerOpini = document.getElementById("daftarOpini");
+    const kontainer = {
+      jongjava: document.getElementById("daftar-jongjava"),
+      puisi: document.getElementById("daftar-puisi"),
+      cerpen: document.getElementById("daftar-cerpen"),
+      esai: document.getElementById("daftar-esai"),
+      opini: document.getElementById("daftar-opini")
+    };
 
-    // Animasi Dropdown
-    function toggleCard(card) {
-      const body = card.querySelector(".jj-body");
-      const isOpen = card.classList.contains("aktif");
+    let dataAll = {
+      jongjava: [],
+      puisi: [],
+      cerpen: [],
+      esai: [],
+      opini: []
+    };
 
-      if (isOpen) {
-        body.style.maxHeight = body.scrollHeight + "px";
-        requestAnimationFrame(() => {
-          body.style.maxHeight = "0";
-        });
-        card.classList.remove("aktif");
+    function toggleLike(kategori, data, likeBtn, card) {
+      const likeKey = `like_${kategori}_${data.id}`;
+      const liked = localStorage.getItem(likeKey);
+
+      if (liked) {
+        localStorage.removeItem(likeKey);
+        data.like = (data.like || 1) - 1;
+        if (data.like < 0) data.like = 0;
+        likeBtn.textContent = "🤍 " + data.like;
+        likeBtn.style.color = "#fdd835";
+        updateDataLike(kategori, data.id, data.like);
       } else {
-        card.classList.add("aktif");
-        body.style.maxHeight = body.scrollHeight + "px";
+        localStorage.setItem(likeKey, "true");
+        data.like = (data.like || 0) + 1;
+        likeBtn.textContent = "❤️ " + data.like;
+        likeBtn.style.color = "#ff5252";
+        updateDataLike(kategori, data.id, data.like);
       }
+      renderKategori(kategori);
     }
 
-    // Buat Card
-    function buatCard(data, kategori) {
-      const card = document.createElement("div");
-      card.className = "jj-card";
-      card.innerHTML = `
-        <div class="jj-header">
-          <div class="kategori"><strong>${kategori}</strong></div>
-          <div class="judul">${data.judul}</div>
-          <div class="penulis"><small>Oleh: ${data.penulis}</small></div>
-        </div>
-        <div class="jj-body">
-          <p>${data.isi.replace(/\n/g, "<br>")}</p>
-        </div>
-      `;
-      card.querySelector(".jj-header").addEventListener("click", () => toggleCard(card));
+    function updateDataLike(kategori, id, newLike) {
+      const arr = dataAll[kategori];
+      const idx = arr.findIndex(e => e.id === id);
+      if (idx !== -1) {
+        arr[idx].like = newLike;
+      }
+      // Simpan juga di Firebase jika ingin realtime update, atau di localStorage cukup ini saja
+    }
+
+    function buatCard(kategori, data) {
+      const card = document.createElement("article");
+      card.classList.add("jj-card");
+
+      const header = document.createElement("header");
+      header.classList.add("jj-header");
+
+      const kategoriSpan = document.createElement("span");
+      kategoriSpan.classList.add("kategori");
+      kategoriSpan.textContent = kategori.toUpperCase();
+
+      const judulSpan = document.createElement("span");
+      judulSpan.classList.add("judul");
+      judulSpan.textContent = data.judul || "Judul kosong";
+
+      const penulisSpan = document.createElement("span");
+      penulisSpan.classList.add("penulis");
+      penulisSpan.textContent = data.penulis || "Penulis";
+
+      const likeBtn = document.createElement("span");
+      likeBtn.classList.add("like-btn");
+
+      const likeKey = `like_${kategori}_${data.id}`;
+      const liked = localStorage.getItem(likeKey);
+      const likeCount = data.like || 0;
+      likeBtn.textContent = (liked ? "❤️ " : "🤍 ") + likeCount;
+      likeBtn.style.color = liked ? "#ff5252" : "#fdd835";
+
+      likeBtn.onclick = (e) => {
+        e.stopPropagation();
+        toggleLike(kategori, data, likeBtn, card);
+      };
+
+      header.appendChild(kategoriSpan);
+      header.appendChild(judulSpan);
+      header.appendChild(penulisSpan);
+      header.appendChild(likeBtn);
+
+      const body = document.createElement("div");
+      body.classList.add("jj-body");
+      // Ganti \n jadi <br> agar multiline tampil rapi
+      const isiFormatted = (data.isi || "Tidak ada isi karya.").replace(/\n/g, "<br>");
+      body.innerHTML = `<p>${isiFormatted}</p>`;
+
+      header.onclick = () => {
+        if (body.style.maxHeight) {
+          body.style.maxHeight = null;
+        } else {
+          body.style.maxHeight = body.scrollHeight + "px";
+        }
+      };
+
+      card.appendChild(header);
+      card.appendChild(body);
+
       return card;
     }
 
-    // Ambil Data Firebase
-    db.ref("jongjava").on("child_added", snapshot => {
-      const data = snapshot.val();
-      kontainerJJ.prepend(buatCard(data, data.kategori || "Jong Java"));
-    });
-    db.ref("puisi").on("child_added", snapshot => {
-      const data = snapshot.val();
-      kontainerPuisi.prepend(buatCard(data, "Puisi"));
-    });
-    db.ref("cerpen").on("child_added", snapshot => {
-      const data = snapshot.val();
-      kontainerCerpen.prepend(buatCard(data, "Cerpen"));
-    });
-    db.ref("esai").on("child_added", snapshot => {
-      const data = snapshot.val();
-      kontainerEsai.prepend(buatCard(data, "Esai"));
-    });
-    db.ref("opini").on("child_added", snapshot => {
-      const data = snapshot.val();
-      kontainerOpini.prepend(buatCard(data, "Opini"));
-    });
+    function renderKategori(kategori) {
+      const kont = kontainer[kategori];
+      kont.innerHTML = "";
+
+      // Urutkan berdasarkan like terbanyak turun
+      const sorted = dataAll[kategori].slice().sort((a,b) => (b.like || 0) - (a.like || 0));
+
+      if (sorted.length === 0) {
+        kont.textContent = "Belum ada karya di kategori ini.";
+        return;
+      }
+
+      sorted.forEach(data => {
+        const card = buatCard(kategori, data);
+        kont.appendChild(card);
+      });
+    }
+
+    // Ambil data realtime dari Firebase dan update local data & render ulang
+    function fetchData() {
+      ["jongjava","puisi","cerpen","esai","opini"].forEach(kategori => {
+        db.ref(kategori).once('value').then(snapshot => {
+          const arr = [];
+          snapshot.forEach(child => {
+            const val = child.val();
+            arr.push({
+              id: child.key,
+              judul: val.judul || "",
+              penulis: val.penulis || "",
+              isi: val.isi || "",
+              like: val.like || 0
+            });
+          });
+          dataAll[kategori] = arr;
+          renderKategori(kategori);
+        });
+      });
+    }
+
+    fetchData();
   </script>
 </body>
 </html>
