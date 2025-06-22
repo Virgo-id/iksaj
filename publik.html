@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -238,7 +237,7 @@
 
   </main>
 
-  <script>
+<script>
   // Sidebar dan Navigasi
   const sidebar = document.getElementById("sidebar");
   const overlay = document.getElementById("overlay");
@@ -272,8 +271,8 @@
     }
   });
 
-  // Firebase
-   const firebaseConfig = {
+  // Firebase config dan inisialisasi
+  const firebaseConfig = {
     apiKey: "AIzaSyBYoiXWgNvn-1ZO3tD-ne-6Veevj3FRiMo",
     authDomain: "ikatansantriannuqayahjawa.firebaseapp.com",
     databaseURL: "https://ikatansantriannuqayahjawa-default-rtdb.firebaseio.com",
@@ -342,15 +341,7 @@
     const data = snapshot.val();
     kontainerOpini.prepend(buatCard(data, "Opini"));
   });
-
-
-    // Tambahkan interaksi dropdown
-    card.querySelector(".jj-header").addEventListener("click", () => {
-      card.classList.toggle("aktif");
-    });
-
-    kontainer.prepend(card);
-  });
 </script>
+
 </body>
 </html>
