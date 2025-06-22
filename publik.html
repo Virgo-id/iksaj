@@ -158,6 +158,40 @@
       margin-top: 0.6em;
       white-space: pre-wrap; /* supaya garis baru juga terlihat */
     }
+    
+    #overlay-tirai {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: 2000; /* pastikan di atas konten */
+  pointer-events: all;
+  overflow: hidden;
+  background: transparent;
+  display: flex;
+}
+
+.tirai {
+  background: black;
+  width: 50vw;
+  height: 100vh;
+  transition: transform 2s ease;
+}
+
+.tirai.kiri {
+  transform: translateX(0);
+}
+
+.tirai.kanan {
+  transform: translateX(0);
+}
+
+#overlay-tirai.buka .tirai.kiri {
+  transform: translateX(-100%);
+}
+
+#overlay-tirai.buka .tirai.kanan {
+  transform: translateX(100%);
+}
+
   </style>
 </head>
 <body>
@@ -177,6 +211,12 @@
   </div>
 
   <div class="overlay" id="overlay" onclick="tutupSidebar()"></div>
+  
+  <div id="overlay-tirai">
+  <div class="tirai kiri"></div>
+  <div class="tirai kanan"></div>
+</div>
+
 
   <main>
     <div id="beranda" class="halaman aktif">
@@ -372,5 +412,26 @@
 
     fetchData();
   </script>
+  <script>
+  window.onload = () => {
+  // Disable scroll dulu
+  document.body.style.overflow = 'hidden';
+
+  setTimeout(() => {
+    document.getElementById('overlay-tirai').classList.add('buka');
+  }, 800);
+
+  setTimeout(() => {
+    const overlay = document.getElementById('overlay-tirai');
+    overlay.style.pointerEvents = 'none';
+    overlay.style.opacity = '0';
+    document.body.style.overflow = 'auto';
+
+    setTimeout(() => {
+      overlay.style.display = 'none';
+    }, 300);
+  }, 2800);
+};
+</script>
 </body>
-</html>
+</html> 
