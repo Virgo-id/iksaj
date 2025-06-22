@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -289,6 +290,7 @@
 
   db.ref("jongjava").on("child_added", function(snapshot) {
     const data = snapshot.val();
+    
 
 // ================= PUISI =================
 const daftarPuisi = document.getElementById("daftarPuisi");
@@ -397,7 +399,7 @@ db.ref("opini").on("child_added", function(snapshot) {
     <div class="penulis"><small>Oleh: ${data.penulis}</small></div>
   </div>
   <div class="jj-body">
-    <p>${data.isi}</p>
+      <p>${data.isi.replace(/\n/g, "<br>")}</p>
   </div>
 `;
 
@@ -409,6 +411,8 @@ db.ref("opini").on("child_added", function(snapshot) {
 
     kontainer.prepend(card);
   });
+</script>
+  
 </script>
 
   <script>
